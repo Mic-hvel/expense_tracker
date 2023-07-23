@@ -1,13 +1,22 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import { GlobalContext } from '../context/GlobalState';
 
 const AddTransaction = () => {
     const [isText, setIsText] = useState('')
     const [isAmount, setIsAmount] = useState(0)
-    const [isAdd, setIsAdd] = useState(false)
+    const { addTransaction } = useContext(GlobalContext)
 
-    function handleSaveTransaction(e) {
-        e.preventDefault()
-        setIsAdd(!isAdd)
+
+    function handleSubmit(e) {
+        e.preventDefault();
+
+        const newTransaction = {
+            id: Math.floor(Math.random() * 100),
+            isText,
+            isAmount: parseInt(isAmount)
+        }
+    
+        addTransaction(newTransaction)
     }
 
     function handleInputText(e) {
@@ -21,7 +30,7 @@ const AddTransaction = () => {
   return (
     <>
         <h3>Add new transaction</h3>
-        <form onSubmit={handleSaveTransaction}>
+        <form onSubmit={handleSubmit}>
             <div className="form-control">
             <label htmlFor="text">Text</label>
 
